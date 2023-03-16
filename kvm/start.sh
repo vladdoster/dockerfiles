@@ -39,8 +39,8 @@ virsh net-start default
 # import existing vms
 echo "Importing any existing VMs..."
 for f in /root/kvm/*.xml; do
-	echo "Importing $(basename "$f")..."
-	virsh define "$f"
+  echo "Importing $(basename "$f")..."
+  virsh define "$f"
 done
 
 echo "Starting virt-manager..."

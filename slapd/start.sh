@@ -9,7 +9,7 @@ set -o pipefail
 if [ ! -e /var/lib/ldap/docker_bootstrapped ]; then
   echo "configuring slapd for first run"
 
-  cat <<EOF | debconf-set-selections
+  cat << EOF | debconf-set-selections
 slapd slapd/internal/generated_adminpw password ${LDAP_ROOTPASS}
 slapd slapd/internal/adminpw password ${LDAP_ROOTPASS}
 slapd slapd/password2 password ${LDAP_ROOTPASS}
