@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 set -o pipefail
 
@@ -13,7 +13,6 @@ if [[ ! -f ${HOSTKEY} ]]; then
 fi
 
 mkdir -p "${HOME}/.ssh"
-# shellcheck disable=SC1091
 source /etc/profile
 [ "$PUBKEY" ] && echo "$PUBKEY" > "${HOME}/.ssh/authorized_keys"
 
@@ -56,11 +55,9 @@ stop() {
   echo "Done."
 }
 
-# shellcheck disable=SC2145
 echo "Running $@"
 if [[ "$(basename "$1")" == "$DAEMON" ]]; then
   trap stop SIGINT SIGTERM
-  # shellcheck disable=SC2068
   $@ &
   pid="$!"
   mkdir -p "/var/run/${DAEMON}" && echo "${pid}" > "/var/run/${DAEMON}/${DAEMON}.pid"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 # This script gets the latest GitHub releases for the specified projects.
 
 if [[ -z $GITHUB_TOKEN ]]; then
@@ -169,11 +169,9 @@ other_projects=(
 bad_versions=()
 
 main() {
-  # shellcheck disable=SC2068
   for p in ${projects[@]}; do
     get_latest "$p"
   done
-  # shellcheck disable=SC2068
   for p in ${other_projects[@]}; do
     get_latest_"$p"
   done

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 set -o pipefail
 
@@ -44,5 +44,4 @@ for f in /root/kvm/*.xml; do
 done
 
 echo "Starting virt-manager..."
-# shellcheck disable=SC2068
 exec $@
