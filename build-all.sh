@@ -69,7 +69,8 @@ run() {
   if [[ $f == "" ]]; then
     main "$args"
   else
-    $args
+    # Use zsh word splitting to execute function with arguments
+    ${=args}
   fi
 }
 
