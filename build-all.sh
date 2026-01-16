@@ -50,7 +50,8 @@ main() {
   # build all dockerfiles
   echo "Running in parallel with ${JOBS} jobs."
   autoload -U zargs
-  # Use -L 1 instead of -n 1 (zargs counts input list items, not arguments)
+  # Use -L 1 to process one file at a time (like GNU parallel's -n 1)
+  # -P specifies max parallel jobs (like parallel's -j option)
   zargs -L 1 -P "${JOBS}" -- "${files[@]}" -- "$SCRIPT" dofile
 
   if [[ ! -f $ERRORS ]]; then
@@ -69,7 +70,8 @@ run() {
   if [[ $f == "" ]]; then
     main "$args"
   else
-    # Use zsh word splitting to execute function with arguments
+    # Use ${=args} for word splitting - zsh doesn't split words by default like bash
+    # This allows executing "dofile filename" as separate command and argument
     ${=args}
   fi
 }
