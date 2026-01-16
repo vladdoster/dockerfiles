@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 ROOT=/usr/src/gitiles
@@ -27,5 +27,4 @@ fi
 
 PROPERTIES="$PROPERTIES --jvm_flag=-Dcom.google.gitiles.sourcePath=$ROOT"
 
-# shellcheck disable=SC2086
 exec "${ROOT}/bin/java/com/google/gitiles/dev/dev" $PROPERTIES

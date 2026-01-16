@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 set -o pipefail
 
@@ -34,5 +34,4 @@ fi
 
 chown -R unifi:unifi /config /usr/lib/unifi
 
-# shellcheck disable=SC2068
 exec gosu unifi $@

@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 set -e
 set -o pipefail
 
-SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+SCRIPT="$(cd "$(dirname "${(%):-%x}")" && pwd)/$(basename "${(%):-%x}")"
 REPO_URL="${REPO_URL:-r.j3ss.co}"
 JOBS=${JOBS:-2}
 
@@ -45,13 +45,14 @@ dofile() {
 
 main() {
   # get the dockerfiles
-  IFS=$'\n'
-  mapfile -t files < <(find -L . -iname '*Dockerfile' | sed 's|./||' | sort)
-  unset IFS
+  files=("${(@f)$(find -L . -iname '*Dockerfile' | sed 's|./||' | sort)}")
 
   # build all dockerfiles
   echo "Running in parallel with ${JOBS} jobs."
-  parallel --tag --verbose --ungroup -j"${JOBS}" "$SCRIPT" dofile "{1}" ::: "${files[@]}"
+  autoload -U zargs
+  # Use -L 1 to process one file at a time (like GNU parallel's -n 1)
+  # -P specifies max parallel jobs (like parallel's -j option)
+  zargs -L 1 -P "${JOBS}" -- "${files[@]}" -- "$SCRIPT" dofile
 
   if [[ ! -f $ERRORS ]]; then
     echo "No errors, hooray!"
@@ -69,7 +70,9 @@ run() {
   if [[ $f == "" ]]; then
     main "$args"
   else
-    $args
+    # Use ${=args} for word splitting - zsh doesn't split words by default like bash
+    # This allows executing "dofile filename" as separate command and argument
+    ${=args}
   fi
 }
 

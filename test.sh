@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 set -o pipefail
 
@@ -23,13 +23,9 @@ validate_diff() {
 }
 
 # get the dockerfiles changed
-IFS=$'\n'
-# shellcheck disable=SC2207
-files=($(validate_diff --name-only -- '*Dockerfile'))
-unset IFS
+files=("${(@f)$(validate_diff --name-only -- '*Dockerfile')}")
 
 # build the changed dockerfiles
-# shellcheck disable=SC2068
 for f in ${files[@]}; do
   if ! [[ -e $f ]]; then
     continue

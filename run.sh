@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 #
 # This script allows you to launch several images
 # from this repository once they're built.
