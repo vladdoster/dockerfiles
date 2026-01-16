@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-[ "$DEBUG" == 'true' ] && set -x
+[ "$DEBUG" = 'true' ] && set -x
 
 DAEMON=sshd
 HOSTKEY=/etc/ssh/ssh_host_ed25519_key
